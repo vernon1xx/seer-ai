@@ -6,14 +6,14 @@
 ---
 
 <p align="center">
-  <a href="https://YOUR_USERNAME.github.io/seer-ai/prototypes/SEER-AI-v4.html">
+  <a href="https://vernon1xx.github.io/seer-ai/prototypes/SEER-AI-v4.html">
     <img src="docs/assets/seer-ai-cube-preview.png" alt="SEER AI Cube Interface" width="600">
   </a>
 </p>
 
 ## 🎮 Live Demo
 
-**[▶️ Try SEER AI Prototype](https://YOUR_USERNAME.github.io/seer-ai/prototypes/SEER-AI-v4.html)**
+**[▶️ Try SEER AI Prototype](https://vernon1xx.github.io/seer-ai/prototypes/SEER-AI-v4.html)**
 
 > 🖱️ **Drag** to rotate the cube | 🎤 **Voice** commands in Chrome | 📱 **Touch** supported
 
@@ -47,7 +47,7 @@ SEER AI is an **AI-powered industrial facility management platform** that combin
 ### Docker Deployment (Coming Soon)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/seer-ai.git
+git clone https://github.com/vernon1xx/seer-ai.git
 cd seer-ai
 docker-compose up -d
 ```
@@ -208,7 +208,7 @@ MIT License — See [LICENSE](LICENSE) for details.
 **Vernon Buchanan**
 - Environmental Compliance & Safety Lead
 - SDS Lumber Company
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- GitHub: [@vernon1xx](https://github.com/vernon1xx)
 
 ---
 
