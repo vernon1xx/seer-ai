@@ -1,0 +1,102 @@
+{
+  "seerConfig": {
+    "version": "1.0",
+    "name": "Industrial Facility Starter",
+    "description": "Default SEER AI configuration for industrial facilities",
+    "author": "SEER AI",
+    "created": "2026-02-01",
+    "industry": "general",
+    "faces": [
+      {
+        "id": "facility",
+        "name": "Facility Map",
+        "position": "top",
+        "grid": "4x3",
+        "icon": "🗺️",
+        "tiles": [
+          { "id": "sitemap", "icon": "🗺️", "title": "Site Map", "subtitle": "Overview", "order": 1 },
+          { "id": "building1", "icon": "🏭", "title": "Building 1", "subtitle": "Main", "order": 2 },
+          { "id": "building2", "icon": "🏭", "title": "Building 2", "subtitle": "Secondary", "order": 3 },
+          { "id": "utilities", "icon": "⚡", "title": "Utilities", "subtitle": "Systems", "order": 4 },
+          { "id": "shipping", "icon": "🚛", "title": "Shipping", "subtitle": "Area", "order": 5 },
+          { "id": "maintenance-shop", "icon": "🔧", "title": "Maint Shop", "subtitle": "Workshop", "order": 6 }
+        ]
+      },
+      {
+        "id": "admin",
+        "name": "Administration",
+        "position": "front",
+        "grid": "4x3",
+        "icon": "📋",
+        "tiles": [
+          { "id": "company", "icon": "🏢", "title": "Company", "subtitle": "Portal", "order": 1 },
+          { "id": "handbook", "icon": "📘", "title": "Handbook", "subtitle": "Policies", "order": 2 },
+          { "id": "forms", "icon": "📝", "title": "Forms", "subtitle": "Admin", "order": 3 },
+          { "id": "directory", "icon": "📇", "title": "Directory", "subtitle": "Contacts", "order": 4 },
+          { "id": "documents", "icon": "📄", "title": "Documents", "subtitle": "Files", "order": 5 },
+          { "id": "erp", "icon": "💻", "title": "ERP", "subtitle": "System", "order": 6 }
+        ]
+      },
+      {
+        "id": "safety",
+        "name": "Safety",
+        "position": "right",
+        "grid": "4x3",
+        "icon": "🦺",
+        "tiles": [
+          { "id": "loto", "icon": "🔒", "title": "LOTO", "subtitle": "Lockout", "order": 1 },
+          { "id": "jsa", "icon": "📋", "title": "JSA", "subtitle": "Job Safety", "order": 2 },
+          { "id": "incidents", "icon": "🚨", "title": "Incidents", "subtitle": "Reports", "order": 3 },
+          { "id": "training", "icon": "🎓", "title": "Training", "subtitle": "Safety", "order": 4 },
+          { "id": "sds", "icon": "☣️", "title": "SDS", "subtitle": "Chemicals", "order": 5 },
+          { "id": "ppe", "icon": "🥽", "title": "PPE", "subtitle": "Equipment", "order": 6 }
+        ]
+      },
+      {
+        "id": "production",
+        "name": "Production",
+        "position": "back",
+        "grid": "4x3",
+        "icon": "🏭",
+        "tiles": [
+          { "id": "dashboard", "icon": "📊", "title": "Dashboard", "subtitle": "Live", "order": 1 },
+          { "id": "schedule", "icon": "📅", "title": "Schedule", "subtitle": "Planning", "order": 2 },
+          { "id": "quality", "icon": "✅", "title": "Quality", "subtitle": "QC/QA", "order": 3 },
+          { "id": "inventory", "icon": "📦", "title": "Inventory", "subtitle": "Stock", "order": 4 },
+          { "id": "shipping", "icon": "🚚", "title": "Shipping", "subtitle": "Logistics", "order": 5 },
+          { "id": "kpis", "icon": "🎯", "title": "KPIs", "subtitle": "Metrics", "order": 6 }
+        ]
+      },
+      {
+        "id": "maintenance",
+        "name": "Maintenance",
+        "position": "left",
+        "grid": "4x3",
+        "icon": "🔧",
+        "tiles": [
+          { "id": "cmms", "icon": "🔧", "title": "CMMS", "subtitle": "System", "order": 1 },
+          { "id": "workorders", "icon": "📋", "title": "Work Orders", "subtitle": "Tasks", "order": 2 },
+          { "id": "pms", "icon": "🔄", "title": "PM's", "subtitle": "Preventive", "order": 3 },
+          { "id": "equipment", "icon": "⚙️", "title": "Equipment", "subtitle": "Assets", "order": 4 },
+          { "id": "parts", "icon": "🔩", "title": "Parts", "subtitle": "Inventory", "order": 5 },
+          { "id": "vendors", "icon": "🏪", "title": "Vendors", "subtitle": "Suppliers", "order": 6 }
+        ]
+      },
+      {
+        "id": "environmental",
+        "name": "Environmental",
+        "position": "bottom",
+        "grid": "3x2",
+        "icon": "🌿",
+        "tiles": [
+          { "id": "air-quality", "icon": "💨", "title": "Air Quality", "subtitle": "Emissions", "order": 1 },
+          { "id": "water-quality", "icon": "💧", "title": "Water Quality", "subtitle": "Discharge", "order": 2 },
+          { "id": "haz-waste", "icon": "☣️", "title": "Haz Waste", "subtitle": "Disposal", "order": 3 },
+          { "id": "permits", "icon": "📜", "title": "Permits", "subtitle": "Regulatory", "order": 4 },
+          { "id": "regulations", "icon": "📚", "title": "Regulations", "subtitle": "Compliance", "order": 5 },
+          { "id": "reporting", "icon": "📊", "title": "Reporting", "subtitle": "Reports", "order": 6 }
+        ]
+      }
+    ]
+  }
+}

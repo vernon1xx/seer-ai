@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEER AI - Envision Your World</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --seer-primary: #00d4ff;
+            --seer-secondary: #0099ff;
+            --seer-accent: #00ff88;
+            --seer-glow: rgba(0, 212, 255, 0.5);
+            --seer-dark: #0a0a1a;
+            --seer-darker: #050510;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--seer-darker);
+            min-height: 100vh;
+            overflow: hidden;
+            color: #fff;
+            user-select: none;
+        }
+
+        /* Animated Background */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        canvas#bgCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at center, #0a0a1a 0%, #050510 100%);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(5, 5, 16, 0.95) 0%, transparent 100%);
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-icon {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-ring {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 70px;
+            height: 70px;
+            border: 2px solid var(--seer-primary);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: logoSpin 3s linear infinite;
+        }
+
+        @keyframes logoSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, #fff 0%, var(--seer-primary) 50%, var(--seer-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px var(--seer-glow);
+        }
+
+        .logo-text .tagline-primary {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: var(--seer-primary);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .tagline-box {
+            text-align: right;
+        }
+
+        .tagline-box .tagline-secondary {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+        }
+
+        /* AI Status */
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 30px;
+            margin-top: 8px;
+        }
+
+        .status-ring {
+            position: relative;
+            width: 12px;
+            height: 12px;
+        }
+
+        .status-ring::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: var(--seer-accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--seer-accent);
+        }
+
+        .status-ring::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--seer-accent);
+            border-radius: 50%;
+            animation: statusRing 2s ease-out infinite;
+        }
+
+        @keyframes statusRing {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .ai-status span {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Main Container */
+        .main-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 80px;
+        }
+
+        /* 3D Cube Scene */
+        .cube-scene {
+            width: 100%;
+            height: 55vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1200px;
+            position: relative;
+            cursor: grab;
+        }
+
+        .cube-scene:active {
+            cursor: grabbing;
+        }
+
+        .cube-scene.dragging {
+            cursor: grabbing;
+        }
+
+        /* Glow effects */
+        .cube-glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: glowPulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .cube-glow-secondary {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: glowPulse 4s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+
+        /* Cube wrapper */
+        .cube-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+        }
+
+        .cube-wrapper.animating {
+            transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .cube-wrapper.floating {
+            animation: cubeFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cubeFloat {
+            0%, 100% { transform: translateY(0) rotateX(var(--rx)) rotateY(var(--ry)); }
+            50% { transform: translateY(-20px) rotateX(var(--rx)) rotateY(var(--ry)); }
+        }
+
+        /* Cube faces */
+        .cube-face {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(135deg, rgba(10, 15, 30, 0.95) 0%, rgba(5, 8, 15, 0.98) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 16px;
+            backface-visibility: hidden;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 6px;
+            padding: 12px;
+            box-shadow: 
+                0 0 60px rgba(0, 212, 255, 0.15),
+                inset 0 0 80px rgba(0, 212, 255, 0.03);
+            overflow: hidden;
+        }
+
+        .cube-face::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--seer-primary), transparent);
+            opacity: 0.5;
+        }
+
+        .cube-face::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 40%,
+                rgba(0, 212, 255, 0.02) 50%,
+                transparent 60%
+            );
+            animation: shineEffect 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shineEffect {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Face positions */
+        .face-front  { transform: translateZ(160px); }
+        .face-back   { transform: rotateY(180deg) translateZ(160px); }
+        .face-right  { transform: rotateY(90deg) translateZ(160px); }
+        .face-left   { transform: rotateY(-90deg) translateZ(160px); }
+        .face-top    { transform: rotateX(90deg) translateZ(160px); }
+        .face-bottom { transform: rotateX(-90deg) translateZ(160px); }
+
+        /* Face Labels */
+        .face-label {
+            position: absolute;
+            top: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--seer-primary), var(--seer-secondary));
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            white-space: nowrap;
+            box-shadow: 0 0 25px var(--seer-glow);
+            pointer-events: none;
+        }
+
+        /* Tiles */
+        .tile {
+            background: linear-gradient(145deg, rgba(20, 35, 60, 0.7), rgba(10, 18, 30, 0.8));
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 5px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tile:hover {
+            border-color: var(--seer-primary);
+            transform: scale(1.1) translateZ(10px);
+            box-shadow: 
+                0 0 25px rgba(0, 212, 255, 0.5),
+                inset 0 0 25px rgba(0, 212, 255, 0.1);
+        }
+
+        .tile:hover::before {
+            opacity: 1;
+        }
+
+        .tile.highlighted {
+            border-color: var(--seer-accent);
+            box-shadow: 
+                0 0 35px rgba(0, 255, 136, 0.7),
+                inset 0 0 35px rgba(0, 255, 136, 0.2);
+            animation: tileHighlight 0.6s ease-out;
+        }
+
+        @keyframes tileHighlight {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) translateZ(20px); }
+            100% { transform: scale(1.1) translateZ(10px); }
+        }
+
+        .tile-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+            filter: drop-shadow(0 0 8px var(--seer-glow));
+        }
+
+        .tile-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Face navigation */
+        .face-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .face-nav-btn {
+            padding: 12px 24px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .face-nav-btn:hover {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--seer-primary);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .face-nav-btn.active {
+            background: linear-gradient(135deg, var(--seer-primary), var(--seer-secondary));
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 0 30px var(--seer-glow);
+        }
+
+        /* Rotation indicator */
+        .rotation-indicator {
+            position: fixed;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .rotation-indicator.visible {
+            opacity: 1;
+        }
+
+        .rotation-indicator span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            color: var(--seer-primary);
+            letter-spacing: 2px;
+        }
+
+        /* AI Chat Interface */
+        .chat-container {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 750px;
+            z-index: 100;
+        }
+
+        .chat-box {
+            background: linear-gradient(135deg, rgba(10, 15, 30, 0.98) 0%, rgba(5, 8, 15, 0.99) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 24px;
+            padding: 20px 25px;
+            box-shadow: 
+                0 15px 50px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .chat-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--seer-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-label::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--seer-primary), transparent);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 16px;
+            padding: 16px 22px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: var(--seer-primary);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.15);
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 400;
+        }
+
+        .chat-btn {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--seer-primary), var(--seer-secondary));
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--seer-glow);
+        }
+
+        .chat-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 35px var(--seer-glow);
+        }
+
+        .voice-btn {
+            background: linear-gradient(135deg, var(--seer-accent), #00cc6a);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .voice-btn:hover {
+            box-shadow: 0 0 35px rgba(0, 255, 136, 0.6);
+        }
+
+        .voice-btn.listening {
+            animation: voicePulse 1s ease-in-out infinite;
+        }
+
+        @keyframes voicePulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.5); transform: scale(1); }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 136, 0.8); transform: scale(1.05); }
+        }
+
+        /* AI Response */
+        .ai-response {
+            margin-top: 15px;
+            padding: 18px;
+            background: rgba(0, 212, 255, 0.03);
+            border-radius: 14px;
+            border-left: 2px solid var(--seer-primary);
+            display: none;
+        }
+
+        .ai-response.visible {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ai-response p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .ai-thinking {
+            display: flex;
+            gap: 6px;
+            padding: 10px 0;
+        }
+
+        .ai-thinking span {
+            width: 8px;
+            height: 8px;
+            background: var(--seer-primary);
+            border-radius: 50%;
+            animation: thinking 1.4s ease-in-out infinite;
+        }
+
+        .ai-thinking span:nth-child(2) { animation-delay: 0.2s; }
+        .ai-thinking span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes thinking {
+            0%, 100% { transform: translateY(0); opacity: 0.3; }
+            50% { transform: translateY(-12px); opacity: 1; }
+        }
+
+        /* Quick actions */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .quick-action:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+            color: #fff;
+        }
+
+        /* Detail Panel */
+        .detail-panel {
+            position: fixed;
+            top: 100px;
+            right: -500px;
+            width: 480px;
+            height: calc(100vh - 120px);
+            background: linear-gradient(180deg, rgba(10, 15, 30, 0.99) 0%, rgba(5, 8, 15, 1) 100%);
+            border-left: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 24px 0 0 24px;
+            z-index: 200;
+            transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow-y: auto;
+            box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .detail-panel.open {
+            right: 0;
+        }
+
+        .panel-header {
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .panel-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            background: linear-gradient(90deg, #fff, var(--seer-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .panel-header p {
+            font-size: 12px;
+            opacity: 0.5;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .close-btn {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            background: rgba(0, 212, 255, 0.05);
+            color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: var(--seer-primary);
+            border-color: var(--seer-primary);
+            transform: rotate(90deg);
+        }
+
+        .panel-content {
+            padding: 30px;
+        }
+
+        .panel-description {
+            margin-bottom: 25px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .panel-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .panel-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 14px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .panel-link:hover {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.3);
+            transform: translateX(8px);
+        }
+
+        .link-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 212, 255, 0.05));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .link-text {
+            flex: 1;
+        }
+
+        .link-text strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .link-text span {
+            font-size: 10px;
+            opacity: 0.4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Keyboard shortcuts */
+        .shortcuts {
+            position: fixed;
+            bottom: 110px;
+            right: 25px;
+            background: rgba(5, 8, 15, 0.8);
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 10px;
+            line-height: 2;
+            z-index: 50;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .shortcuts kbd {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin: 0 3px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(5, 5, 16, 0.7);
+            z-index: 150;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.5);
+        }
+
+        /* Integration badges */
+        .integration-badges {
+            position: fixed;
+            top: 100px;
+            left: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 50;
+        }
+
+        .badge {
+            padding: 8px 14px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            opacity: 1;
+            border-color: var(--seer-primary);
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--seer-accent);
+        }
+
+        .badge-dot.pending {
+            background: #ffaa00;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <canvas id="bgCanvas"></canvas>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <div class="logo-ring"></div>
+                <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="30" cy="30" rx="25" ry="18" stroke="url(#eyeGradient)" stroke-width="2" fill="none"/>
+                    <circle cx="30" cy="30" r="12" fill="url(#irisGradient)"/>
+                    <circle cx="30" cy="30" r="5" fill="#0a0a1a"/>
+                    <circle cx="33" cy="27" r="2" fill="white" opacity="0.8"/>
+                    <path d="M5 30 L15 30" stroke="url(#eyeGradient)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M45 30 L55 30" stroke="url(#eyeGradient)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M30 12 L30 18" stroke="url(#eyeGradient)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M30 42 L30 48" stroke="url(#eyeGradient)" stroke-width="1.5" stroke-linecap="round"/>
+                    <defs>
+                        <linearGradient id="eyeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00d4ff"/>
+                            <stop offset="100%" stop-color="#00ff88"/>
+                        </linearGradient>
+                        <radialGradient id="irisGradient" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#00d4ff"/>
+                            <stop offset="100%" stop-color="#0066aa"/>
+                        </radialGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="logo-text">
+                <h1>SEER AI</h1>
+                <span class="tagline-primary">Envision Your World</span>
+            </div>
+        </div>
+        <div class="tagline-box">
+            <div class="ai-status">
+                <div class="status-ring"></div>
+                <span>AI Online</span>
+            </div>
+            <p class="tagline-secondary">See Everything. Everywhere. Reliably.</p>
+        </div>
+    </div>
+
+    <!-- Integration Badges -->
+    <div class="integration-badges">
+        <div class="badge"><span class="badge-dot"></span>Ollama Ready</div>
+        <div class="badge"><span class="badge-dot"></span>Docker Ready</div>
+        <div class="badge"><span class="badge-dot pending"></span>MCP Toolkit</div>
+        <div class="badge"><span class="badge-dot pending"></span>N8N Workflows</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- 3D Cube Scene -->
+        <div class="cube-scene" id="cubeScene">
+            <div class="cube-glow"></div>
+            <div class="cube-glow-secondary"></div>
+            <div class="cube-wrapper floating" id="cube">
+                <!-- Front Face: Administration -->
+                <div class="cube-face face-front" data-face="0">
+                    <div class="face-label">Administration</div>
+                </div>
+
+                <!-- Right Face: Safety & Health -->
+                <div class="cube-face face-right" data-face="1">
+                    <div class="face-label">Safety & Health</div>
+                </div>
+
+                <!-- Back Face: Production -->
+                <div class="cube-face face-back" data-face="2">
+                    <div class="face-label">Production</div>
+                </div>
+
+                <!-- Left Face: Maintenance -->
+                <div class="cube-face face-left" data-face="3">
+                    <div class="face-label">Maintenance</div>
+                </div>
+
+                <!-- Top Face: Facility Map -->
+                <div class="cube-face face-top" data-face="4">
+                    <div class="face-label">Facility Map</div>
+                </div>
+
+                <!-- Bottom Face: Analytics -->
+                <div class="cube-face face-bottom" data-face="5">
+                    <div class="face-label">Analytics</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rotation Indicator -->
+        <div class="rotation-indicator" id="rotationIndicator">
+            <span>X: <span id="rotX">-8</span>°</span>
+            <span>Y: <span id="rotY">0</span>°</span>
+        </div>
+
+        <!-- Face Navigation -->
+        <div class="face-nav">
+            <button class="face-nav-btn active" data-face="0">Admin</button>
+            <button class="face-nav-btn" data-face="1">Safety</button>
+            <button class="face-nav-btn" data-face="2">Production</button>
+            <button class="face-nav-btn" data-face="3">Maintenance</button>
+            <button class="face-nav-btn" data-face="4">Facility</button>
+            <button class="face-nav-btn" data-face="5">Analytics</button>
+        </div>
+    </div>
+
+    <!-- AI Chat Interface -->
+    <div class="chat-container">
+        <div class="chat-box">
+            <div class="chat-label">SEER Intelligence</div>
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask SEER anything... 'Show me the LOTO procedure for Dry Kiln 2'">
+                <button class="chat-btn voice-btn" id="voiceBtn" title="Voice Input">🎤</button>
+                <button class="chat-btn" id="sendBtn" title="Send">➤</button>
+            </div>
+            <div class="ai-response" id="aiResponse">
+                <p id="responseText"></p>
+            </div>
+            <div class="quick-actions">
+                <span class="quick-action" data-query="Show me the facility map">🗺️ Facility Map</span>
+                <span class="quick-action" data-query="What LOTO procedures do we have?">🔒 LOTO Procedures</span>
+                <span class="quick-action" data-query="Show me safety training">🦺 Safety Training</span>
+                <span class="quick-action" data-query="Open Benchmate">🔧 Benchmate</span>
+                <span class="quick-action" data-query="Show environmental permits">🌿 Permits</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shortcuts -->
+    <div class="shortcuts">
+        <kbd>🖱️ Drag</kbd> Free Rotate &nbsp;|&nbsp;
+        <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> Navigate &nbsp;|&nbsp;
+        <kbd>Enter</kbd> Ask SEER &nbsp;|&nbsp;
+        <kbd>Esc</kbd> Close
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Detail Panel -->
+    <div class="detail-panel" id="detailPanel">
+        <div class="panel-header">
+            <div>
+                <h2 id="panelTitle">Title</h2>
+                <p id="panelSubtitle">Subtitle</p>
+            </div>
+            <button class="close-btn" id="closePanel">✕</button>
+        </div>
+        <div class="panel-content">
+            <p class="panel-description" id="panelDescription"></p>
+            <div class="panel-links" id="panelLinks"></div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // SEER AI Data Structure
+        // ========================================
+        const cubeData = {
+            faces: [
+                {
+                    name: "Administration",
+                    keywords: ["admin", "hr", "employee", "handbook", "forms", "payroll", "directory", "application"],
+                    tiles: [
+                        { id: "acme", icon: "🏢", title: "Company", subtitle: "Portal", description: "Company-wide resources and information.", links: [{ label: "Company Website", url: "#", type: "link" }] },
+                        { id: "site-key", icon: "🗺️", title: "Site Key", subtitle: "Facility Map", description: "Interactive facility map.", links: [{ label: "Open Site Map", url: "#", type: "map" }] },
+                        { id: "handbook", icon: "📘", title: "Handbook", subtitle: "Policies", description: "Employee handbook.", links: [{ label: "Employee Handbook", url: "#", type: "pdf" }] },
+                        { id: "manuals", icon: "📚", title: "Manuals", subtitle: "Reference", description: "Company manuals.", links: [{ label: "Operations Manual", url: "#", type: "pdf" }] },
+                        { id: "documents", icon: "📄", title: "Documents", subtitle: "Files", description: "Document repository.", links: [{ label: "Document Library", url: "#", type: "folder" }] },
+                        { id: "forms", icon: "📝", title: "Forms", subtitle: "Admin Forms", description: "Administrative forms.", links: [{ label: "Employee Application", url: "#", type: "form" }, { label: "OSHA 300", url: "#", type: "pdf" }, { label: "W4 Form", url: "#", type: "pdf" }] },
+                        { id: "directory", icon: "📇", title: "Directory", subtitle: "Contacts", description: "Contact directory.", links: [{ label: "Company Directory", url: "#", type: "pdf" }] },
+                        { id: "admin", icon: "⚙️", title: "Admin", subtitle: "NetSuite", description: "ERP system access.", links: [{ label: "NetSuite Login", url: "#", type: "external" }] },
+                        { id: "employment", icon: "👤", title: "Employment", subtitle: "Applications", description: "Job applications.", links: [{ label: "Apply Online", url: "#", type: "form" }] },
+                        { id: "charts", icon: "📊", title: "Charts", subtitle: "Org Charts", description: "Organizational charts.", links: [{ label: "Org Chart", url: "#", type: "doc" }] },
+                        { id: "database", icon: "🗄️", title: "Database", subtitle: "Data Systems", description: "Information systems.", links: [{ label: "Database Portal", url: "#", type: "link" }] },
+                        { id: "payroll", icon: "💰", title: "Payroll", subtitle: "Sage", description: "Payroll system.", links: [{ label: "Sage Payroll", url: "#", type: "external" }] }
+                    ]
+                },
+                {
+                    name: "Safety & Health",
+                    keywords: ["safety", "loto", "lockout", "tagout", "incident", "jsa", "training", "sds", "msds", "environmental", "permit", "osha", "ppe", "emergency"],
+                    tiles: [
+                        { id: "safety", icon: "🦺", title: "Safety", subtitle: "Program", description: "Safety program resources.", links: [{ label: "Safety Manual", url: "#", type: "pdf" }] },
+                        { id: "incident", icon: "🚨", title: "Incidents", subtitle: "Reports", description: "Incident reporting.", links: [{ label: "Report Incident", url: "#", type: "form" }] },
+                        { id: "jsa", icon: "📋", title: "JSA's", subtitle: "Job Safety", description: "Job Safety Analysis.", links: [{ label: "JSA Library", url: "#", type: "folder" }] },
+                        { id: "loto", icon: "🔒", title: "LOTO", subtitle: "Lockout/Tagout", description: "Energy control procedures for equipment isolation.", links: [{ label: "LOTO Procedures", url: "#", type: "map" }, { label: "MCC Diagrams", url: "#", type: "folder" }, { label: "Dry Kiln 1 LOTO", url: "#", type: "pdf" }, { label: "Dry Kiln 2 LOTO", url: "#", type: "pdf" }, { label: "Barker Complex LOTO", url: "#", type: "pdf" }] },
+                        { id: "training", icon: "🎓", title: "Training", subtitle: "Safety Training", description: "Training materials.", links: [{ label: "Training Courses", url: "#", type: "folder" }] },
+                        { id: "msds", icon: "☣️", title: "SDS", subtitle: "Safety Data", description: "Chemical safety data.", links: [{ label: "SDS Database", url: "#", type: "folder" }] },
+                        { id: "environmental", icon: "🌿", title: "Environmental", subtitle: "Compliance", description: "Environmental compliance.", links: [{ label: "Air Permits", url: "#", type: "folder" }, { label: "Stormwater Plan", url: "#", type: "pdf" }] },
+                        { id: "permits", icon: "📜", title: "Permits", subtitle: "Regulatory", description: "Regulatory permits.", links: [{ label: "Permit Library", url: "#", type: "folder" }] },
+                        { id: "osha", icon: "🏛️", title: "OSHA", subtitle: "Compliance", description: "OSHA compliance.", links: [{ label: "OSHA 300 Log", url: "#", type: "pdf" }] },
+                        { id: "ppe", icon: "🥽", title: "PPE", subtitle: "Equipment", description: "PPE requirements.", links: [{ label: "PPE Matrix", url: "#", type: "doc" }] },
+                        { id: "emergency", icon: "🚒", title: "Emergency", subtitle: "Response", description: "Emergency plans.", links: [{ label: "Emergency Action Plan", url: "#", type: "pdf" }] },
+                        { id: "firstaid", icon: "🏥", title: "First Aid", subtitle: "Medical", description: "First aid resources.", links: [{ label: "First Aid Stations", url: "#", type: "map" }] }
+                    ]
+                },
+                {
+                    name: "Production",
+                    keywords: ["production", "schedule", "erp", "quality", "inventory", "shipping", "reports", "metrics", "video", "realtime"],
+                    tiles: [
+                        { id: "production", icon: "🏭", title: "Production", subtitle: "Overview", description: "Production status.", links: [{ label: "Production Dashboard", url: "#", type: "link" }] },
+                        { id: "schedule", icon: "📅", title: "Schedule", subtitle: "Planning", description: "Production scheduling.", links: [{ label: "Weekly Schedule", url: "#", type: "doc" }] },
+                        { id: "erp", icon: "💻", title: "ERP", subtitle: "Enterprise", description: "ERP system.", links: [{ label: "ERP Login", url: "#", type: "external" }] },
+                        { id: "quality", icon: "✅", title: "Quality", subtitle: "QC/QA", description: "Quality control.", links: [{ label: "Quality Manual", url: "#", type: "pdf" }] },
+                        { id: "inventory", icon: "📦", title: "Inventory", subtitle: "Stock", description: "Inventory tracking.", links: [{ label: "Inventory System", url: "#", type: "link" }] },
+                        { id: "shipping", icon: "🚚", title: "Shipping", subtitle: "Logistics", description: "Shipping coordination.", links: [{ label: "Shipping Schedule", url: "#", type: "doc" }] },
+                        { id: "reports", icon: "📈", title: "Reports", subtitle: "Data", description: "Production reports.", links: [{ label: "Daily Reports", url: "#", type: "folder" }] },
+                        { id: "operations", icon: "⚡", title: "Operations", subtitle: "SOPs", description: "Standard procedures.", links: [{ label: "SOP Library", url: "#", type: "folder" }] },
+                        { id: "realtime", icon: "📡", title: "Real-Time", subtitle: "Live Data", description: "Real-time data.", links: [{ label: "Live Dashboard", url: "#", type: "link" }] },
+                        { id: "video", icon: "📹", title: "Video", subtitle: "Cameras", description: "Camera feeds.", links: [{ label: "Camera System", url: "#", type: "link" }] },
+                        { id: "metrics", icon: "🎯", title: "Metrics", subtitle: "KPIs", description: "Key performance.", links: [{ label: "KPI Dashboard", url: "#", type: "link" }] },
+                        { id: "logs", icon: "📝", title: "Logs", subtitle: "History", description: "Production logs.", links: [{ label: "Log Archive", url: "#", type: "folder" }] }
+                    ]
+                },
+                {
+                    name: "Maintenance",
+                    keywords: ["maintenance", "benchmate", "cmms", "pm", "preventive", "work order", "equipment", "schematics", "parts", "vendor", "utilities", "calibration", "facilities"],
+                    tiles: [
+                        { id: "benchmate", icon: "🔧", title: "Benchmate", subtitle: "CMMS", description: "Computerized Maintenance Management System.", links: [{ label: "Open Benchmate", url: "#", type: "external" }, { label: "Work Orders", url: "#", type: "link" }] },
+                        { id: "facilities", icon: "🏗️", title: "Facilities", subtitle: "Site Map", description: "Interactive facility map.", links: [{ label: "Facility Map", url: "#", type: "map" }] },
+                        { id: "pms", icon: "🔄", title: "PM's", subtitle: "Preventive", description: "Preventive maintenance.", links: [{ label: "PM Calendar", url: "#", type: "doc" }] },
+                        { id: "workorders", icon: "📋", title: "Work Orders", subtitle: "Tasks", description: "Work order management.", links: [{ label: "New Work Order", url: "#", type: "form" }] },
+                        { id: "equipment", icon: "⚙️", title: "Equipment", subtitle: "Assets", description: "Equipment database.", links: [{ label: "Equipment List", url: "#", type: "doc" }] },
+                        { id: "manuals-maint", icon: "📖", title: "Manuals", subtitle: "Tech Docs", description: "Equipment manuals.", links: [{ label: "Manual Library", url: "#", type: "folder" }] },
+                        { id: "schematics", icon: "📐", title: "Schematics", subtitle: "Drawings", description: "Technical drawings.", links: [{ label: "Electrical", url: "#", type: "folder" }, { label: "P&IDs", url: "#", type: "folder" }] },
+                        { id: "parts", icon: "🔩", title: "Parts", subtitle: "Spare Parts", description: "Parts inventory.", links: [{ label: "Parts Inventory", url: "#", type: "link" }] },
+                        { id: "vendors", icon: "🏪", title: "Vendors", subtitle: "Suppliers", description: "Vendor information.", links: [{ label: "Vendor List", url: "#", type: "doc" }] },
+                        { id: "history", icon: "📜", title: "History", subtitle: "Maint Log", description: "Maintenance history.", links: [{ label: "Maintenance History", url: "#", type: "folder" }] },
+                        { id: "utilities", icon: "💡", title: "Utilities", subtitle: "Infrastructure", description: "Utility systems.", links: [{ label: "Electrical Systems", url: "#", type: "map" }] },
+                        { id: "calibration", icon: "🎚️", title: "Calibration", subtitle: "Instruments", description: "Calibration records.", links: [{ label: "Cal Schedule", url: "#", type: "doc" }] }
+                    ]
+                },
+                {
+                    name: "Facility Map",
+                    keywords: ["map", "site", "building", "location", "area"],
+                    tiles: [
+                        { id: "sitemap", icon: "🗺️", title: "Site Map", subtitle: "Overview", description: "Complete facility overview.", links: [{ label: "Interactive Map", url: "#", type: "map" }] },
+                        { id: "studmill", icon: "🪵", title: "Stud Mill", subtitle: "Building", description: "Stud Mill operations.", links: [{ label: "Floor Plan", url: "#", type: "map" }] },
+                        { id: "planermill", icon: "🪚", title: "Planer Mill", subtitle: "Building", description: "Planer Mill operations.", links: [{ label: "Floor Plan", url: "#", type: "map" }] },
+                        { id: "drykiln1", icon: "🔥", title: "Dry Kiln 1", subtitle: "Building", description: "Dry Kiln 1 operations.", links: [{ label: "Equipment", url: "#", type: "map" }, { label: "LOTO", url: "#", type: "pdf" }] },
+                        { id: "drykiln2", icon: "🔥", title: "Dry Kiln 2", subtitle: "Building", description: "Dry Kiln 2 operations.", links: [{ label: "Equipment", url: "#", type: "map" }, { label: "LOTO", url: "#", type: "pdf" }] },
+                        { id: "barker", icon: "🏭", title: "Barker", subtitle: "Complex", description: "Barker Complex.", links: [{ label: "Floor Plan", url: "#", type: "map" }] },
+                        { id: "steamplant", icon: "♨️", title: "Steam Plant", subtitle: "Utilities", description: "Steam generation.", links: [{ label: "P&ID", url: "#", type: "map" }] },
+                        { id: "plywood", icon: "📦", title: "Plywood", subtitle: "Plant", description: "Plywood plant.", links: [{ label: "Floor Plan", url: "#", type: "map" }] },
+                        { id: "shipping-area", icon: "🚛", title: "Shipping", subtitle: "Area", description: "Shipping and receiving.", links: [{ label: "Layout", url: "#", type: "map" }] },
+                        { id: "maintenance-shop", icon: "🔧", title: "Maint Shop", subtitle: "Fab/Mach", description: "Maintenance shop.", links: [{ label: "Layout", url: "#", type: "map" }] },
+                        { id: "underground", icon: "🕳️", title: "Underground", subtitle: "Utilities", description: "Underground systems.", links: [{ label: "Utility Map", url: "#", type: "map" }] },
+                        { id: "electrical", icon: "⚡", title: "Electrical", subtitle: "Distribution", description: "Electrical systems.", links: [{ label: "One-Line", url: "#", type: "map" }] }
+                    ]
+                },
+                {
+                    name: "Analytics",
+                    keywords: ["analytics", "dashboard", "report", "data", "kpi", "metric"],
+                    tiles: [
+                        { id: "dashboard", icon: "📊", title: "Dashboard", subtitle: "Overview", description: "Main analytics dashboard.", links: [{ label: "Open Dashboard", url: "#", type: "link" }] },
+                        { id: "production-analytics", icon: "📈", title: "Production", subtitle: "Analytics", description: "Production analytics.", links: [{ label: "View", url: "#", type: "link" }] },
+                        { id: "safety-analytics", icon: "🦺", title: "Safety", subtitle: "Metrics", description: "Safety metrics.", links: [{ label: "View", url: "#", type: "link" }] },
+                        { id: "maintenance-analytics", icon: "🔧", title: "Maintenance", subtitle: "Analytics", description: "Maintenance analytics.", links: [{ label: "View", url: "#", type: "link" }] },
+                        { id: "environmental-analytics", icon: "🌿", title: "Environmental", subtitle: "Data", description: "Environmental data.", links: [{ label: "Emissions", url: "#", type: "link" }] },
+                        { id: "energy", icon: "⚡", title: "Energy", subtitle: "Usage", description: "Energy consumption.", links: [{ label: "View", url: "#", type: "link" }] },
+                        { id: "cost", icon: "💵", title: "Cost", subtitle: "Analysis", description: "Cost analysis.", links: [{ label: "View", url: "#", type: "link" }] },
+                        { id: "trends", icon: "📉", title: "Trends", subtitle: "Historical", description: "Historical trends.", links: [{ label: "View", url: "#", type: "link" }] },
+                        { id: "alerts", icon: "🔔", title: "Alerts", subtitle: "Notifications", description: "System alerts.", links: [{ label: "View All", url: "#", type: "link" }] },
+                        { id: "custom", icon: "🎨", title: "Custom", subtitle: "Reports", description: "Custom reports.", links: [{ label: "Builder", url: "#", type: "link" }] },
+                        { id: "export", icon: "📤", title: "Export", subtitle: "Data", description: "Export data.", links: [{ label: "Export", url: "#", type: "link" }] },
+                        { id: "settings", icon: "⚙️", title: "Settings", subtitle: "Config", description: "Analytics settings.", links: [{ label: "Configure", url: "#", type: "link" }] }
+                    ]
+                }
+            ]
+        };
+
+        // ========================================
+        // Particle Background
+        // ========================================
+        class ParticleBackground {
+            constructor() {
+                this.canvas = document.getElementById('bgCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.resize();
+                this.init();
+                this.animate();
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            init() {
+                const particleCount = 100;
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.4,
+                        vy: (Math.random() - 0.5) * 0.4,
+                        radius: Math.random() * 1.5 + 0.5,
+                        alpha: Math.random() * 0.4 + 0.1
+                    });
+                }
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach((p, i) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(0, 212, 255, ${p.alpha})`;
+                    this.ctx.fill();
+
+                    this.particles.slice(i + 1).forEach(p2 => {
+                        const dx = p.x - p2.x;
+                        const dy = p.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 100) {
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(p.x, p.y);
+                            this.ctx.lineTo(p2.x, p2.y);
+                            this.ctx.strokeStyle = `rgba(0, 212, 255, ${0.08 * (1 - dist / 100)})`;
+                            this.ctx.stroke();
+                        }
+                    });
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // ========================================
+        // SEER AI Cube Controller with Mouse Drag
+        // ========================================
+        class SEERAICube {
+            constructor() {
+                this.cube = document.getElementById('cube');
+                this.cubeScene = document.getElementById('cubeScene');
+                this.currentFace = 0;
+                this.detailPanel = document.getElementById('detailPanel');
+                this.overlay = document.getElementById('overlay');
+                this.chatInput = document.getElementById('chatInput');
+                this.aiResponse = document.getElementById('aiResponse');
+                this.responseText = document.getElementById('responseText');
+                this.rotationIndicator = document.getElementById('rotationIndicator');
+                this.isListening = false;
+
+                // Mouse drag rotation
+                this.isDragging = false;
+                this.previousMouseX = 0;
+                this.previousMouseY = 0;
+                this.rotationX = -8;
+                this.rotationY = 0;
+                this.autoRotate = true;
+                this.momentum = { x: 0, y: 0 };
+
+                this.faceRotations = [
+                    { x: -8, y: 0 },      // Front - Admin
+                    { x: -8, y: -90 },    // Right - Safety
+                    { x: -8, y: -180 },   // Back - Production
+                    { x: -8, y: -270 },   // Left - Maintenance
+                    { x: -98, y: 0 },     // Top - Facility Map
+                    { x: 82, y: 0 }       // Bottom - Analytics
+                ];
+
+                this.init();
+            }
+
+            init() {
+                this.renderTiles();
+                this.bindEvents();
+                this.updateCubeRotation();
+                new ParticleBackground();
+            }
+
+            renderTiles() {
+                const faces = document.querySelectorAll('.cube-face');
+                faces.forEach((face, faceIndex) => {
+                    if (cubeData.faces[faceIndex]) {
+                        const faceData = cubeData.faces[faceIndex];
+                        faceData.tiles.forEach(tile => {
+                            const tileEl = document.createElement('div');
+                            tileEl.className = 'tile';
+                            tileEl.dataset.tileId = tile.id;
+                            tileEl.dataset.faceIndex = faceIndex;
+                            tileEl.innerHTML = `
+                                <span class="tile-icon">${tile.icon}</span>
+                                <span class="tile-title">${tile.title}</span>
+                            `;
+                            tileEl.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                if (!this.isDragging) this.openPanel(tile);
+                            });
+                            face.appendChild(tileEl);
+                        });
+                    }
+                });
+            }
+
+            bindEvents() {
+                // Mouse drag events
+                this.cubeScene.addEventListener('mousedown', (e) => this.onMouseDown(e));
+                document.addEventListener('mousemove', (e) => this.onMouseMove(e));
+                document.addEventListener('mouseup', (e) => this.onMouseUp(e));
+                
+                // Touch events for mobile
+                this.cubeScene.addEventListener('touchstart', (e) => this.onTouchStart(e));
+                document.addEventListener('touchmove', (e) => this.onTouchMove(e));
+                document.addEventListener('touchend', (e) => this.onTouchEnd(e));
+
+                // Keyboard
+                document.addEventListener('keydown', (e) => {
+                    if (document.activeElement === this.chatInput) {
+                        if (e.key === 'Enter') this.processQuery(this.chatInput.value);
+                        return;
+                    }
+                    if (e.key === 'ArrowLeft') this.rotateTo((this.currentFace + 3) % 4);
+                    if (e.key === 'ArrowRight') this.rotateTo((this.currentFace + 1) % 4);
+                    if (e.key === 'ArrowUp') this.rotateTo(4);
+                    if (e.key === 'ArrowDown') this.rotateTo(5);
+                    if (e.key === 'Escape') this.closePanel();
+                });
+
+                // Nav buttons
+                document.querySelectorAll('.face-nav-btn').forEach(btn => {
+                    btn.addEventListener('click', () => this.rotateTo(parseInt(btn.dataset.face)));
+                });
+
+                // Chat
+                document.getElementById('sendBtn').addEventListener('click', () => this.processQuery(this.chatInput.value));
+                this.chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.processQuery(this.chatInput.value); });
+
+                // Quick actions
+                document.querySelectorAll('.quick-action').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.chatInput.value = btn.dataset.query;
+                        this.processQuery(btn.dataset.query);
+                    });
+                });
+
+                // Voice
+                document.getElementById('voiceBtn').addEventListener('click', () => this.toggleVoice());
+
+                // Panel
+                document.getElementById('closePanel').addEventListener('click', () => this.closePanel());
+                this.overlay.addEventListener('click', () => this.closePanel());
+
+                // Momentum animation
+                this.animateMomentum();
+            }
+
+            onMouseDown(e) {
+                if (e.target.closest('.tile')) return;
+                this.isDragging = true;
+                this.previousMouseX = e.clientX;
+                this.previousMouseY = e.clientY;
+                this.cubeScene.classList.add('dragging');
+                this.cube.classList.remove('floating');
+                this.rotationIndicator.classList.add('visible');
+                this.momentum = { x: 0, y: 0 };
+            }
+
+            onMouseMove(e) {
+                if (!this.isDragging) return;
+                
+                const deltaX = e.clientX - this.previousMouseX;
+                const deltaY = e.clientY - this.previousMouseY;
+                
+                this.rotationY += deltaX * 0.5;
+                this.rotationX -= deltaY * 0.5;
+                
+                // Clamp X rotation
+                this.rotationX = Math.max(-90, Math.min(90, this.rotationX));
+                
+                this.momentum.x = deltaY * 0.5;
+                this.momentum.y = deltaX * 0.5;
+                
+                this.previousMouseX = e.clientX;
+                this.previousMouseY = e.clientY;
+                
+                this.updateCubeRotation();
+                this.updateRotationDisplay();
+            }
+
+            onMouseUp(e) {
+                if (this.isDragging) {
+                    this.isDragging = false;
+                    this.cubeScene.classList.remove('dragging');
+                    setTimeout(() => {
+                        this.rotationIndicator.classList.remove('visible');
+                    }, 1000);
+                }
+            }
+
+            onTouchStart(e) {
+                if (e.target.closest('.tile')) return;
+                const touch = e.touches[0];
+                this.isDragging = true;
+                this.previousMouseX = touch.clientX;
+                this.previousMouseY = touch.clientY;
+                this.cube.classList.remove('floating');
+            }
+
+            onTouchMove(e) {
+                if (!this.isDragging) return;
+                e.preventDefault();
+                
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - this.previousMouseX;
+                const deltaY = touch.clientY - this.previousMouseY;
+                
+                this.rotationY += deltaX * 0.5;
+                this.rotationX -= deltaY * 0.5;
+                this.rotationX = Math.max(-90, Math.min(90, this.rotationX));
+                
+                this.previousMouseX = touch.clientX;
+                this.previousMouseY = touch.clientY;
+                
+                this.updateCubeRotation();
+            }
+
+            onTouchEnd(e) {
+                this.isDragging = false;
+            }
+
+            animateMomentum() {
+                if (!this.isDragging && (Math.abs(this.momentum.x) > 0.1 || Math.abs(this.momentum.y) > 0.1)) {
+                    this.rotationX -= this.momentum.x;
+                    this.rotationY += this.momentum.y;
+                    this.rotationX = Math.max(-90, Math.min(90, this.rotationX));
+                    
+                    this.momentum.x *= 0.95;
+                    this.momentum.y *= 0.95;
+                    
+                    this.updateCubeRotation();
+                }
+                requestAnimationFrame(() => this.animateMomentum());
+            }
+
+            updateRotationDisplay() {
+                document.getElementById('rotX').textContent = Math.round(this.rotationX);
+                document.getElementById('rotY').textContent = Math.round(this.rotationY % 360);
+            }
+
+            rotateTo(faceIndex) {
+                this.currentFace = faceIndex;
+                const r = this.faceRotations[faceIndex];
+                this.rotationX = r.x;
+                this.rotationY = r.y;
+                this.cube.classList.add('animating');
+                this.cube.classList.remove('floating');
+                this.updateCubeRotation();
+                this.updateNavButtons();
+                setTimeout(() => {
+                    this.cube.classList.remove('animating');
+                    this.cube.classList.add('floating');
+                    this.cube.style.setProperty('--rx', r.x + 'deg');
+                    this.cube.style.setProperty('--ry', r.y + 'deg');
+                }, 1200);
+            }
+
+            updateCubeRotation() {
+                this.cube.style.transform = `rotateX(${this.rotationX}deg) rotateY(${this.rotationY}deg)`;
+            }
+
+            updateNavButtons() {
+                document.querySelectorAll('.face-nav-btn').forEach((btn, i) => {
+                    btn.classList.toggle('active', i === this.currentFace);
+                });
+            }
+
+            processQuery(query) {
+                if (!query.trim()) return;
+                this.aiResponse.classList.add('visible');
+                this.responseText.innerHTML = '<div class="ai-thinking"><span></span><span></span><span></span></div>';
+
+                setTimeout(() => {
+                    const result = this.findBestMatch(query.toLowerCase());
+                    if (result.face !== null) {
+                        this.rotateTo(result.face);
+                        setTimeout(() => {
+                            if (result.tile) this.highlightTile(result.tile, result.face);
+                            this.responseText.innerHTML = result.response;
+                            if (result.tileData) setTimeout(() => this.openPanel(result.tileData), 800);
+                        }, 700);
+                    } else {
+                        this.responseText.innerHTML = result.response;
+                    }
+                }, 1200);
+                this.chatInput.value = '';
+            }
+
+            findBestMatch(query) {
+                const equipmentMap = {
+                    'dry kiln 1': { face: 4, tile: 'drykiln1' }, 'dry kiln 2': { face: 4, tile: 'drykiln2' },
+                    'kiln 1': { face: 4, tile: 'drykiln1' }, 'kiln 2': { face: 4, tile: 'drykiln2' },
+                    'barker': { face: 4, tile: 'barker' }, 'steam plant': { face: 4, tile: 'steamplant' },
+                    'stud mill': { face: 4, tile: 'studmill' }, 'planer': { face: 4, tile: 'planermill' },
+                    'plywood': { face: 4, tile: 'plywood' }
+                };
+
+                for (const [key, value] of Object.entries(equipmentMap)) {
+                    if (query.includes(key)) {
+                        const faceData = cubeData.faces[value.face];
+                        const tileData = faceData.tiles.find(t => t.id === value.tile);
+                        if (query.includes('loto') || query.includes('lockout')) {
+                            return {
+                                face: 1, tile: 'loto',
+                                tileData: cubeData.faces[1].tiles.find(t => t.id === 'loto'),
+                                response: `🔒 <strong>SEER found</strong> LOTO procedures for <strong>${key}</strong>. Opening Lockout/Tagout section.`
+                            };
+                        }
+                        return {
+                            face: value.face, tile: value.tile, tileData: tileData,
+                            response: `🗺️ <strong>SEER navigating</strong> to <strong>${tileData.title}</strong>. Click the tile for details.`
+                        };
+                    }
+                }
+
+                for (let faceIndex = 0; faceIndex < cubeData.faces.length; faceIndex++) {
+                    const face = cubeData.faces[faceIndex];
+                    for (const keyword of face.keywords) {
+                        if (query.includes(keyword)) {
+                            let matchedTile = null;
+                            for (const tile of face.tiles) {
+                                if (query.includes(tile.id) || query.includes(tile.title.toLowerCase())) {
+                                    matchedTile = tile; break;
+                                }
+                            }
+                            if (query.includes('loto') || query.includes('lockout') || query.includes('tagout')) {
+                                matchedTile = face.tiles.find(t => t.id === 'loto');
+                            }
+                            if (query.includes('benchmate') || query.includes('cmms')) {
+                                matchedTile = face.tiles.find(t => t.id === 'benchmate');
+                            }
+                            if (query.includes('map') || query.includes('facility')) {
+                                return {
+                                    face: 4, tile: 'sitemap',
+                                    tileData: cubeData.faces[4].tiles[0],
+                                    response: `🗺️ <strong>SEER navigating</strong> to the <strong>Facility Map</strong>.`
+                                };
+                            }
+                            return {
+                                face: faceIndex, tile: matchedTile?.id, tileData: matchedTile,
+                                response: `✨ <strong>SEER found</strong> information in <strong>${face.name}</strong>. ${matchedTile ? `Opening <strong>${matchedTile.title}</strong>.` : 'Browse the tiles.'}`
+                            };
+                        }
+                    }
+                }
+
+                return {
+                    face: null, tile: null, tileData: null,
+                    response: `🤔 <strong>SEER</strong> couldn't find that. Try: LOTO procedures, safety training, facility map, Benchmate, or environmental permits.`
+                };
+            }
+
+            highlightTile(tileId, faceIndex) {
+                document.querySelectorAll('.tile.highlighted').forEach(t => t.classList.remove('highlighted'));
+                const tile = document.querySelector(`.tile[data-tile-id="${tileId}"][data-face-index="${faceIndex}"]`);
+                if (tile) {
+                    tile.classList.add('highlighted');
+                    setTimeout(() => tile.classList.remove('highlighted'), 3000);
+                }
+            }
+
+            toggleVoice() {
+                const voiceBtn = document.getElementById('voiceBtn');
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    this.responseText.innerHTML = '🎤 Voice input not supported. Try Chrome!';
+                    this.aiResponse.classList.add('visible');
+                    return;
+                }
+                if (this.isListening) {
+                    this.recognition.stop();
+                    voiceBtn.classList.remove('listening');
+                    this.isListening = false;
+                    return;
+                }
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                this.recognition = new SpeechRecognition();
+                this.recognition.continuous = false;
+                this.recognition.interimResults = false;
+                this.recognition.onstart = () => { voiceBtn.classList.add('listening'); this.isListening = true; this.chatInput.placeholder = 'Listening...'; };
+                this.recognition.onresult = (event) => { const transcript = event.results[0][0].transcript; this.chatInput.value = transcript; this.processQuery(transcript); };
+                this.recognition.onend = () => { voiceBtn.classList.remove('listening'); this.isListening = false; this.chatInput.placeholder = "Ask SEER anything..."; };
+                this.recognition.onerror = () => { voiceBtn.classList.remove('listening'); this.isListening = false; };
+                this.recognition.start();
+            }
+
+            openPanel(tile) {
+                document.getElementById('panelTitle').textContent = tile.title;
+                document.getElementById('panelSubtitle').textContent = tile.subtitle;
+                document.getElementById('panelDescription').textContent = tile.description;
+                const linksContainer = document.getElementById('panelLinks');
+                linksContainer.innerHTML = '';
+                const iconMap = { 'pdf': '📄', 'doc': '📝', 'folder': '📁', 'form': '📋', 'link': '🔗', 'external': '🌐', 'map': '🗺️' };
+                tile.links.forEach(link => {
+                    const linkEl = document.createElement('a');
+                    linkEl.className = 'panel-link';
+                    linkEl.href = link.url;
+                    linkEl.target = '_blank';
+                    linkEl.innerHTML = `
+                        <span class="link-icon">${iconMap[link.type] || '📎'}</span>
+                        <span class="link-text"><strong>${link.label}</strong><span>${link.type.toUpperCase()}</span></span>
+                    `;
+                    linksContainer.appendChild(linkEl);
+                });
+                this.detailPanel.classList.add('open');
+                this.overlay.classList.add('open');
+            }
+
+            closePanel() {
+                this.detailPanel.classList.remove('open');
+                this.overlay.classList.remove('open');
+            }
+        }
+
+        // Initialize SEER AI
+        document.addEventListener('DOMContentLoaded', () => new SEERAICube());
+    </script>
+</body>
+</html>
